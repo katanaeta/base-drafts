@@ -5,10 +5,10 @@
 Network Working Group                                            S. Celi
 Internet-Draft                                                Cloudflare
 Intended status: Informational                               A. Davidson
-Expires: 10 January 2022                                             LIP
+Expires: 2 April 2022                                                LIP
                                                         A. Faz-Hernandez
                                                               Cloudflare
-                                                             9 July 2021
+                                                       29 September 2021
 
 
                   Privacy Pass Protocol Specification
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 January 2022.
+   This Internet-Draft will expire on 2 April 2022.
 
 Copyright Notice
 
@@ -205,8 +205,8 @@ Table of Contents
 
    Privacy Pass also prohibits clients from forging tokens, as otherwise
    the protocol would have little value as an authorization protocol.
-   Informally, this means any client that is issued "N" tokens under a
-   given server key cannot redeem more than "N" valid tokens.
+   Informally, this means any client that is issued N tokens under a
+   given server key cannot redeem more than N valid tokens.
 
    Section 6 elaborates on these protocol anonymity and security
    requirements.
@@ -243,7 +243,7 @@ Table of Contents
 4.1.  Server setup
 
    Before the protocol takes place, the server chooses a ciphersuite and
-   generates a keypair by running "(pkS, skS) = KeyGen()".  This
+   generates a keypair by running (pkS, skS) = KeyGen().  This
    configuration must be available to all clients that interact with the
    server (for the purpose of engaging in a Privacy Pass exchange).  We
    assume that the server has a public (and unique) identity that the
@@ -251,22 +251,21 @@ Table of Contents
 
 4.2.  Client setup
 
-   The client initialises a global storage system "store" that allows it
+   The client initialises a global storage system store that allows it
    store the tokens that are received during issuance.  The storage
-   system is a map of server identifiers ("server.id") to arrays of
-   stored tokens.  We assume that the client knows the server public key
-   "pkS" ahead of time.  The client picks a value "m" of tokens to
-   receive during the issuance phase.  In
-   [draft-davidson-pp-architecture] we discuss mechanisms that the
-   client can use to ensure that this public key is consistent across
-   the entire ecosystem.
+   system is a map of server identifiers (server.id) to arrays of stored
+   tokens.  We assume that the client knows the server public key pkS
+   ahead of time.  The client picks a value m of tokens to receive
+   during the issuance phase.  In [draft-davidson-pp-architecture] we
+   discuss mechanisms that the client can use to ensure that this public
+   key is consistent across the entire ecosystem.
 
 4.3.  Issuance phase
 
    The issuance phase is a two-round protocol that allows the client to
-   receive "m" anonymous authorization tokens from the server.  The
-   first round sees the server generate a commitment.  The second round
-   sees the server issue a token to the client.
+   receive m anonymous authorization tokens from the server.  The first
+   round sees the server generate a commitment.  The second round sees
+   the server issue a token to the client.
 
      Client(pkS, m, info)                        Server(skS, pkS)
      ------------------------------------------------------------
@@ -297,26 +296,26 @@ Table of Contents
 
    Note that the first round of the protocol is only necessitated for
    certain ciphersuites that require client and servers commit to some
-   value.  When such commitment "commit_resp" is generated and sent to
-   the client, the client returns "commit_resp" with the
-   "IssuanceRequest" message.  The server MUST check that the commitment
-   corresponds to "commit_resp" that was previously committed.  This
-   requires the commitment to either be a reference to some commitment
-   on the server, or the commitment be an encrypted (and authenticated)
-   blob that the server can use to recover commitment.  The mechanism by
-   which servers handle this commitment is implementation specific, and
-   similar to how TLS session resumption state is managed; see [RFC8446]
-   for details.  In addition, the "Commit" function is implementation-
-   specific and MUST be defined by the underlying ciphersuite.
+   value.  When such commitment commit_resp is generated and sent to the
+   client, the client returns commit_resp with the IssuanceRequest
+   message.  The server MUST check that the commitment corresponds to
+   commit_resp that was previously committed.  This requires the
+   commitment to either be a reference to some commitment on the server,
+   or the commitment be an encrypted (and authenticated) blob that the
+   server can use to recover commitment.  The mechanism by which servers
+   handle this commitment is implementation specific, and similar to how
+   TLS session resumption state is managed; see [RFC8446] for details.
+   In addition, the Commit function is implementation-specific and MUST
+   be defined by the underlying ciphersuite.
 
    When the server does not need to generate this commitment, the client
-   instead DOES NOT send the "CommitRequest" message, and runs:
+   instead DOES NOT send the CommitRequest message, and runs:
 
    cInput = Generate(m, "")
 
-   A server that is expecting some non-empty "commit_resp" to be passed
+   A server that is expecting some non-empty commit_resp to be passed
    must abort the protocol on receiving a request containing an empty
-   "commit_resp" value.
+   commit_resp value.
 
    Note: currently, no ciphersuites are supported that support working
    with empty commitment messages.
@@ -349,22 +348,21 @@ Table of Contents
 
 4.4.1.  Client info
 
-   The client input "info" is arbitrary byte data that is used for
-   linking the redemption request to the specific session.  We RECOMMEND
-   that "info" is constructed as the following concatenated byte-encoded
-   data:
+   The client input info is arbitrary byte data that is used for linking
+   the redemption request to the specific session.  We RECOMMEND that
+   info is constructed as the following concatenated byte-encoded data:
 
    len(aux) || aux || len(server.id) || server.id || current_time()
 
-   where "len(x)" is the length of "x" in bytes, and "aux" is arbitrary
-   auxiliary data chosen by the client.  The usage of "current_time()"
+   where len(x) is the length of x in bytes, and aux is arbitrary
+   auxiliary data chosen by the client.  The usage of current_time()
    allows the server to check that the redemption request has happened
    in an appropriate time window.
 
 4.4.2.  Double-spend protection
 
-   To protect against clients that attempt to spend a value "req.data"
-   more than once, the server uses an index, "dsIdx", to collect valid
+   To protect against clients that attempt to spend a value req.data
+   more than once, the server uses an index, dsIdx, to collect valid
    inputs it witnesses.  Since this store needs to only be optimized for
    storage and querying, a structure such as a Bloom filter suffices.
    The storage should be parameterized to live as long as the server
@@ -395,7 +393,7 @@ Table of Contents
 
 5.1.1.  Ciphersuite
 
-   The "Ciphersuite" enum provides identifiers for each of the supported
+   The Ciphersuite enum provides identifiers for each of the supported
    ciphersuites of the protocol.  Some initial values that are supported
    by the core protocol are described in Section 8.  Note that the list
    of supported ciphersuites may be expanded by extensions to the core
@@ -411,7 +409,7 @@ Table of Contents
 
 5.1.3.  CommitRequest
 
-   The "CommitRequest" struct is simply a fixed message allowing opaque
+   The CommitRequest struct is simply a fixed message allowing opaque
    metadata.
 
    struct {
@@ -420,7 +418,7 @@ Table of Contents
 
 5.1.4.  CommitResponse
 
-   The "CommitResponse" struct is contains an opaque set of bytes that
+   The CommitResponse struct is contains an opaque set of bytes that
    correspond to some commitment that the server has generated.  The
    structure and format of this value is implementation specific
    depending on whether the server is stateful.
@@ -431,7 +429,7 @@ Table of Contents
 
 5.1.5.  IssuanceInput
 
-   The "IssuanceInput" struct describes the data that is initially
+   The IssuanceInput struct describes the data that is initially
    generated by the client during the issuance phase.
 
    Firstly, we define sequences of bytes that partition the client
@@ -440,41 +438,43 @@ Table of Contents
    opaque Internal<1..2^16-1>
    opaque IssuanceRequest<1..2^16-1>
 
-   These data types represent members of the wider "IssuanceInput" data
+   These data types represent members of the wider IssuanceInput data
    type.
 
    struct {
-     Internal data[m]
-     IssuanceRequest req[m]
+     Internal data[data_bytes]
+     IssuanceRequest req[req_bytes]
    } IssuanceInput;
 
-   Note that a "IssuanceInput" contains equal-length arrays of
-   "Internal" and "IssuanceRequest" types corresponding to the number of
-   tokens that should be issued.
+   Note that a IssuanceInput contains equal-length size m arrays of
+   Internal and IssuanceRequest types corresponding to the number of
+   tokens that should be issued. data_bytes is the total number of bytes
+   that m Internal elements require, and req_bytes is the total number
+   of bytes that m IssuanceRequest elements require.
 
 5.1.6.  IssuanceResponse
 
-   Firstly, the "IssuedToken" type corresponds to a single sequence of
+   Firstly, the IssuedToken type corresponds to a single sequence of
    bytes that represents a single issued token received from the server.
 
    opaque IssuedToken<1..2^16-1>
 
-   Then an "IssuanceResponse" corresponds to a collection of
-   "IssuedTokens" as well as a sequence of bytes "proof".
+   Then an IssuanceResponse corresponds to a collection of IssuedTokens
+   as well as a sequence of bytes proof.
 
    struct {
-     IssuedToken tokens[m]
+     IssuedToken tokens[tokens_bytes]
      opaque proof<1..2^16-1>
    }
 
-   The value of "m" is equal to the length of the "IssuanceRequest"
-   vector sent by the client.
+   The value of m is equal to the length of the IssuanceRequest vector
+   sent by the client. tokens_bytes is the total number of bytes that m
+   IssuedTokens elements require.
 
 5.1.7.  RedemptionToken
 
-   The "RedemptionToken" struct contains the data required to generate
-   the client message in the redemption phase of the Privacy Pass
-   protocol.
+   The RedemptionToken struct contains the data required to generate the
+   client message in the redemption phase of the Privacy Pass protocol.
 
    struct {
      opaque data<1..2^16-1>;
@@ -483,8 +483,8 @@ Table of Contents
 
 5.1.8.  RedemptionRequest
 
-   The "RedemptionRequest" struct consists of the data that is sent by
-   the client during the redemption phase of the protocol.
+   The RedemptionRequest struct consists of the data that is sent by the
+   client during the redemption phase of the protocol.
 
    struct {
      opaque data<1..2^16-1>;
@@ -494,9 +494,9 @@ Table of Contents
 
 5.1.9.  RedemptionResponse
 
-   The "RedemptionResponse" struct corresponds to a boolean value that
-   indicates whether the "RedemptionRequest" sent by the client is
-   valid.  It can also contain any associated data.
+   The RedemptionResponse struct corresponds to a boolean value that
+   indicates whether the RedemptionRequest sent by the client is valid.
+   It can also contain any associated data.
 
    struct {
      boolean success;
@@ -518,14 +518,14 @@ Table of Contents
 
    Inputs:
 
-   "info": An opaque byte application-specific byte string.
+   info: An opaque byte application-specific byte string.
 
    Outputs:
 
-   "commit_req": A "CommitRequest" struct.
+   commit_req: A CommitRequest struct.
 
    This function should be implemented by any ciphersuites that require
-   a two-phase issuance protocol ("COMMIT=true").
+   a two-phase issuance protocol (COMMIT=true).
 
 5.2.2.  Commit
 
@@ -534,18 +534,18 @@ Table of Contents
 
    Inputs:
 
-   *  "skS": A server "PrivateKey".
+   *  skS: A server PrivateKey.
 
-   *  "pkS": A server "PublicKey".
+   *  pkS: A server PublicKey.
 
-   *  "commit_req": A "CommitRequest" struct
+   *  commit_req: A CommitRequest struct
 
    Outputs:
 
-   *  "commit_resp": A "CommitResponse" struct.
+   *  commit_resp: A CommitResponse struct.
 
    This function should be implemented by any ciphersuites that require
-   a two-phase issuance protocol ("COMMIT=true").
+   a two-phase issuance protocol (COMMIT=true).
 
 5.2.3.  Generate
 
@@ -554,12 +554,12 @@ Table of Contents
 
    Inputs:
 
-   *  "m": A "uint8" value corresponding to the number of Privacy Pass
+   *  m: A uint8 value corresponding to the number of Privacy Pass
       tokens to generate.
 
    Outputs:
 
-   *  "input": An "IssuanceInput" struct.
+   *  input: An IssuanceInput struct.
 
 5.2.4.  Issue
 
@@ -568,19 +568,19 @@ Table of Contents
 
    Inputs:
 
-   *  "pkS": A server "PublicKey".
+   *  pkS: A server PublicKey.
 
-   *  "skS": A server "PrivateKey".
+   *  skS: A server PrivateKey.
 
-   *  "req": An "IssuanceRequest" struct.
+   *  req: An IssuanceRequest struct.
 
    Outputs:
 
-   *  "resp": An "IssuanceResponse" struct.
+   *  resp: An IssuanceResponse struct.
 
    Throws:
 
-   *  "ERR_FAILED_COMMITMENT" (Section 5.3)
+   *  ERR_FAILED_COMMITMENT (Section 5.3)
 
 5.2.5.  Process
 
@@ -589,21 +589,21 @@ Table of Contents
 
    Inputs:
 
-   *  "pkS": An server "PublicKey".
+   *  pkS: An server PublicKey.
 
-   *  "input": An "IssuanceInput" struct.
+   *  input: An IssuanceInput struct.
 
-   *  "resp": An "IssuanceResponse" struct.
+   *  resp: An IssuanceResponse struct.
 
    Outputs:
 
-   *  "tokens": A vector of "RedemptionToken" structs, whose length is
-      equal to length of the internal "ServerEvaluation" vector in the
-      "IssuanceResponse" struct.
+   *  tokens: A vector of RedemptionToken structs, whose length is equal
+      to length of the internal ServerEvaluation vector in the
+      IssuanceResponse struct.
 
    Throws:
 
-   *  "ERR_PROOF_VALIDATION" (Section 5.3)
+   *  ERR_PROOF_VALIDATION (Section 5.3)
 
 5.2.6.  Redeem
 
@@ -612,15 +612,15 @@ Table of Contents
 
    Inputs:
 
-   *  "token": A "RedemptionToken" struct.
+   *  token: A RedemptionToken struct.
 
-   *  "info": An "opaque<1..2^16-1>" type corresponding to data that is
+   *  info: An opaque<1..2^16-1> type corresponding to data that is
       linked to the redemption.  See Section 4.4.1 for advice on how to
       construct this.
 
    Outputs:
 
-   *  "req": A "RedemptionRequest" struct.
+   *  req: A RedemptionRequest struct.
 
 5.2.7.  Verify
 
@@ -629,27 +629,27 @@ Table of Contents
 
    Inputs:
 
-   *  "pkS": An server "PublicKey".
+   *  pkS: An server PublicKey.
 
-   *  "skS": An server "PrivateKey".
+   *  skS: An server PrivateKey.
 
-   *  "req": A "RedemptionRequest" struct.
+   *  req: A RedemptionRequest struct.
 
    Outputs:
 
-   *  "resp": A "RedemptionResponse" struct.
+   *  resp: A RedemptionResponse struct.
 
 5.3.  Error types
 
-   *  "ERR_PROOF_VALIDATION": Error occurred when a client attempted to
+   *  ERR_PROOF_VALIDATION: Error occurred when a client attempted to
       verify the proof that is part of the server's response.
 
-   *  "ERR_DOUBLE_SPEND": Error occurred when a client has attempted to
+   *  ERR_DOUBLE_SPEND: Error occurred when a client has attempted to
       redeem a token that has already been used for authorization.
 
-   *  "ERR_FAILED_COMMITMENT": Error occurs during issuance phase if
-      non-empty commitment does not match the commitment generated in
-      the first round.
+   *  ERR_FAILED_COMMITMENT: Error occurs during issuance phase if non-
+      empty commitment does not match the commitment generated in the
+      first round.
 
 6.  Security considerations
 
@@ -672,55 +672,53 @@ Table of Contents
 
    Formally speaking the security model is the following:
 
-   *  The adversary runs the server setup and generates a keypair "(pkS,
-      skS)".
+   *  The adversary runs the server setup and generates a keypair (pkS,
+      skS).
 
-   *  The adversary specifies a number "Q" of issuance phases to
-      initiate, where each phase "i in range(Q)" consists of "m_i" Issue
-      evaluations.
+   *  The adversary specifies a number Q of issuance phases to initiate,
+      where each phase i in range(Q) consists of m_i Issue evaluations.
 
-   *  The adversary runs "Issue" using the keypair that it generated on
+   *  The adversary runs Issue using the keypair that it generated on
       each of the client messages in the issuance phase.
 
    *  When the adversary wants, it stops the issuance phase, and a
-      random number "l" is picked from "range(Q)".
+      random number l is picked from range(Q).
 
-   *  A redemption phase is initiated with a single token with index "i"
-      randomly sampled from "range(m_l)".
+   *  A redemption phase is initiated with a single token with index i
+      randomly sampled from range(m_l).
 
-   *  The adversary guesses an index "l_guess" corresponding to the
-      index of the issuance phase that it believes the redemption token
-      was received in.
+   *  The adversary guesses an index l_guess corresponding to the index
+      of the issuance phase that it believes the redemption token was
+      received in.
 
-   *  The adversary succeeds if "l == l_guess".
+   *  The adversary succeeds if l == l_guess.
 
    The security requirement is that the adversary has only a negligible
-   probability of success greater than "1/Q".
+   probability of success greater than 1/Q.
 
 6.2.  One-more unforgeability
 
    The one-more unforgeability requirement states that it is hard for
-   any adversarial client that has received "m" valid tokens from the
-   issuance phase to redeem "m+1" of them.  In essence, this requirement
+   any adversarial client that has received m valid tokens from the
+   issuance phase to redeem m+1 of them.  In essence, this requirement
    prevents a malicious client from being able to forge valid tokens
    based on the Issue responses that it sees.
 
    The security model roughly takes the following form:
 
-   *  The adversary specifies a number "Q" of issuance phases to
-      initiate with the server, where each phase "i in range(Q)"
-      consists of "m_i" server evaluation.  Let "m = sum(m_i)" where "i
-      in range(Q)".
+   *  The adversary specifies a number Q of issuance phases to initiate
+      with the server, where each phase i in range(Q) consists of m_i
+      server evaluation.  Let m = sum(m_i) where i in range(Q).
 
-   *  The adversary receives "Q" responses, where the response with
-      index "i" contains "m_i" individual tokens.
+   *  The adversary receives Q responses, where the response with index
+      i contains m_i individual tokens.
 
-   *  The adversary initiates "m_adv" redemption sessions with the
-      server and the server verifies that the sessions are successful
-      (return true), and that each request includes a unique token.  The
-      adversary succeeds in "m_succ =< m_adv" redemption sessions.
+   *  The adversary initiates m_adv redemption sessions with the server
+      and the server verifies that the sessions are successful (return
+      true), and that each request includes a unique token.  The
+      adversary succeeds in m_succ =< m_adv redemption sessions.
 
-   *  The adversary succeeds if "m_succ > m".
+   *  The adversary succeeds if m_succ > m.
 
    The security requirement is that the adversarial client has only a
    negligible probability of succeeding.
@@ -797,14 +795,13 @@ Table of Contents
 7.2.  Protocol contexts
 
    Note that we must run the verifiable version of the protocol in
-   [I-D.irtf-cfrg-voprf].  Therefore the "server" takes the role of the
-   "Server" running in "modeVerifiable".  In other words, the "server"
-   runs "ctxtS = SetupVerifiableServer(suite, skS, pkS)"; where "suite"
-   is one of the ciphersuites in Section 7.1, "skS" and "pkS" is the
-   server's secret and public key respectively (generated by calling
-   "KeyGen").  It returns "ctxtS", which is the Server context.
-   Likewise, run "ctxtC = SetupVerifiableClient(suite, pkS)" to generate
-   the Client context.
+   [I-D.irtf-cfrg-voprf].  Therefore the server takes the role of the
+   Server running in modeVerifiable.  In other words, the server runs
+   ctxtS = SetupVerifiableServer(suite, skS, pkS); where suite is one of
+   the ciphersuites in Section 7.1, skS and pkS is the server's secret
+   and public key respectively (generated by calling KeyGen).  It
+   returns ctxtS, which is the Server context.  Likewise, run ctxtC =
+   SetupVerifiableClient(suite, pkS) to generate the Client context.
 
 7.3.  Functionality
 
@@ -818,8 +815,8 @@ Table of Contents
 
    The generate functionality generates an initial set of tokens and
    blinded representation on the client-side.  The function also takes
-   an optional (possibly empty) value for a commitment "com" committed
-   to by the server.
+   an optional (possibly empty) value for a commitment com committed to
+   by the server.
 
    def Generate(m, com):
      tokens = []
@@ -836,11 +833,11 @@ Table of Contents
 
 7.3.2.  Issue
 
-   For this functionality, note that we supply multiple tokens in "req"
-   to "Evaluate".  This allows batching a single proof object for
-   multiple evaluations.  While the construction in
-   [I-D.irtf-cfrg-voprf] only permits a single input, we follow the
-   advice for providing vectors of inputs.
+   For this functionality, note that we supply multiple tokens in req to
+   Evaluate.  This allows batching a single proof object for multiple
+   evaluations.  While the construction in [I-D.irtf-cfrg-voprf] only
+   permits a single input, we follow the advice for providing vectors of
+   inputs.
 
    def Issue(pkS, skS, req):
      elements, proof = Evaluate(skS, pkS, req)
@@ -851,8 +848,8 @@ Table of Contents
 
 7.3.3.  Process
 
-   Similarly to "Issue", we follow the advice for providing vectors of
-   inputs to the "Unblind" function for verifying the batched proof
+   Similarly to Issue, we follow the advice for providing vectors of
+   inputs to the Unblind function for verifying the batched proof
    object.
 
    Process(pkS, input, resp):
@@ -920,7 +917,7 @@ Table of Contents
    The COMMIT parameter refers to whether the first round of the
    issuance phase of the protocol is necessary.  When this is false, the
    client ignores the first message and uses an empty value for the
-   commitment parameter to "Generate".
+   commitment parameter to Generate.
 
 8.1.  PP(OPRF2)
 

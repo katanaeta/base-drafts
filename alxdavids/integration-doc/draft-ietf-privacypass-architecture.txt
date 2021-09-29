@@ -5,8 +5,8 @@
 Network Working Group                                        A. Davidson
 Internet-Draft                                                       LIP
 Intended status: Informational                                 C.A. Wood
-Expires: 13 January 2022                                      Cloudflare
-                                                            12 July 2021
+Expires: 2 April 2022                                         Cloudflare
+                                                       29 September 2021
 
 
                   Privacy Pass Architectural Framework
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 January 2022.
+   This Internet-Draft will expire on 2 April 2022.
 
 Copyright Notice
 
@@ -210,7 +210,7 @@ Table of Contents
 3.1.  Servers
 
    Generally, servers in the Privacy Pass ecosystem are entities whose
-   primary function is to undertake the role of the "server" in
+   primary function is to undertake the role of the server in
    [I-D.ietf-privacypass-protocol].  To facilitate this, the server MUST
    hold a Privacy Pass protocol keypair at any given time.  The server
    public key MUST be made available to all clients in such a way that
@@ -233,7 +233,7 @@ Table of Contents
 3.2.  Clients
 
    Clients in the Privacy Pass ecosystem are entities whose primary
-   function is to undertake the role of the "Client" in
+   function is to undertake the role of the Client in
    [I-D.ietf-privacypass-protocol].  Clients are assumed to only store
    data related to the tokens that it has been issued by the server.
    This storage is used for constructing redemption requests.
@@ -380,8 +380,8 @@ Table of Contents
    },
    "signature":sig,
 
-   The "signature" field carries a signature evaluated over the contents
-   of "result" using a long-term signing key for the server S, of which
+   The signature field carries a signature evaluated over the contents
+   of result using a long-term signing key for the server S, of which
    the corresponding public key is well-known to C and V.  This would
    need to be published alongside other public key data for S.  Then C
    can prove that they hold a valid authorization from S to V by sending
@@ -461,7 +461,7 @@ Table of Contents
    Note that any metadata bits of information can be used to further
    segment the size of the user's anonymity set.  Any server that wanted
    to track a single user could add a single metadata bit to user
-   tokens.  For the tracked user it would set the bit to "1", and "0"
+   tokens.  For the tracked user it would set the bit to 1, and 0
    otherwise.  Adding additional bits provides an exponential increase
    in tracking granularity similarly to introducing more servers (though
    with more potential targeting).
@@ -636,7 +636,7 @@ Table of Contents
    number of bits of information up to the limits within that
    "redemption context".
 
-   To support this strategy, the client keeps track of a "context" which
+   To support this strategy, the client keeps track of a context which
    contains the set of servers that redemptions have been attempted
    against.  An empty redemption is returned when the limit has been
    hit:
@@ -976,9 +976,9 @@ Table of Contents
 
    [I-D.ietf-privacypass-http-api]
               Valdez, S., "Privacy Pass HTTP API", Work in Progress,
-              Internet-Draft, draft-ietf-privacypass-http-api-00, 5
-              January 2021, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-privacypass-http-api-00>.
+              Internet-Draft, draft-ietf-privacypass-http-api-01, 12
+              July 2021, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-privacypass-http-api-01>.
 
    [I-D.ietf-privacypass-protocol]
               Celi, S., Davidson, A., and A. Faz-Hernandez, "Privacy

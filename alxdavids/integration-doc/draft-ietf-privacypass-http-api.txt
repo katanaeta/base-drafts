@@ -4,8 +4,8 @@
 
 Network Working Group                                          S. Valdez
 Internet-Draft                                                Google LLC
-Intended status: Informational                              12 July 2021
-Expires: 13 January 2022
+Intended status: Informational                         29 September 2021
+Expires: 2 April 2022
 
 
                          Privacy Pass HTTP API
@@ -32,7 +32,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 January 2022.
+   This Internet-Draft will expire on 2 April 2022.
 
 Copyright Notice
 
@@ -115,17 +115,17 @@ Table of Contents
 2.  Privacy Pass HTTP API Wrapping
 
    Messages from HTTP-based clients to HTTP-based servers are performed
-   as GET and POST requests.  The messages are sent via the "Sec-
-   Privacy-Pass" header.
+   as GET and POST requests.  The messages are sent via the Sec-Privacy-
+   Pass header.
 
-   "Sec-Privacy-Pass" is a Dictionary Structured Header
+   Sec-Privacy-Pass is a Dictionary Structured Header
    [draft-ietf-httpbis-header-structure-15].  The dictionary has two
    keys:
 
-   *  "type" whose value is a String conveying the function that is
-      being performed with this request.
+   *  type whose value is a String conveying the function that is being
+      performed with this request.
 
-   *  "body" whose value is a byte sequence containing a Privacy Pass
+   *  body whose value is a byte sequence containing a Privacy Pass
       protocol message.
 
    Note that the requests may contain addition Headers, request data and
@@ -137,8 +137,8 @@ Table of Contents
 
    A client SHOULD fetch a server's current public key information prior
    to performing issuance and redemption.  This configuration is
-   accessible via a "CONFIG_ENDPOINT", either provided by the server or
-   by a global registry that provides consistency and anonymization
+   accessible via a CONFIG_ENDPOINT, either provided by the server or by
+   a global registry that provides consistency and anonymization
    guarantees.
 
 3.1.  Key Registry
@@ -152,7 +152,7 @@ Table of Contents
    can detect when the server is attempting to provide a split-view of
    their key commitments to different clients.
 
-   The key to the map is the "server_origin", with the value being:
+   The key to the map is the server_origin, with the value being:
 
    struct {
        opaque public_key<1..2^16-1>;
@@ -197,22 +197,22 @@ Table of Contents
 
 3.2.  Server Configuration Retrieval
 
-   Inputs: - "server_origin": The origin to retrieve a server
+   Inputs: - server_origin: The origin to retrieve a server
    configuration for.
 
    No outputs.
 
    1.  The client makes an anonymous GET request to
-       "CONFIG_ENDPOINT"/.well-known/privacy-pass with a message of type
-       "fetch-config" and a body of:
+       CONFIG_ENDPOINT/.well-known/privacy-pass with a message of type
+       fetch-config and a body of:
 
    struct {
        opaque server_origin<1..2^16-1>;
    }
 
    1.  The server looks up the configuration associated with the origin
-       "server_origin" and responds with a message of type "config" and
-       a body of:
+       server_origin and responds with a message of type config and a
+       body of:
 
    struct {
        opaque server_id<1..2^16-1>;
@@ -222,7 +222,7 @@ Table of Contents
    }
 
    1.  The client then stores the associated configuration state under
-       the corresponding "server_origin".
+       the corresponding server_origin.
 
    (TODO: This might be mergable with key commitment retrieval if
    server_id = server_origin)
@@ -233,17 +233,16 @@ Table of Contents
    issuance and redemption to verify the consistency of the keys and to
    monitor for key rotation between issuance and redemption events.
 
-   Inputs: - "server_origin": The origin to retrieve a key commitment
-   for.
+   Inputs: - server_origin: The origin to retrieve a key commitment for.
 
    No outputs.
 
-   1.  The client fetches the configuration state "server_id",
-       "ciphersuite", "commitment_id" associated with "server_origin".
+   1.  The client fetches the configuration state server_id,
+       ciphersuite, commitment_id associated with server_origin.
 
    2.  The client makes an anonymous GET request to
-       "CONFIG_ENDPOINT"/.well-known/privacy-pass with a message of type
-       "fetch-commitment" and a body of:
+       CONFIG_ENDPOINT/.well-known/privacy-pass with a message of type
+       fetch-commitment and a body of:
 
    struct {
        opaque server_id<1..2^16-1> = server_id;
@@ -254,8 +253,8 @@ Table of Contents
        list of commitments to return, noting whether a key commitment is
        valid for issuance or redemption or both.
 
-   2.  The server then responds with a message of type "commitment" and
-       a body of:
+   2.  The server then responds with a message of type commitment and a
+       body of:
 
    struct {
        opaque public_key<1..2^16-1>;
@@ -277,30 +276,30 @@ Table of Contents
        client SHOULD NOT cache the commitments beyond the current scope,
        as new commitments should be fetched for each independent
        issuance and redemption request.  The client SHOULD verify the
-       "inclusion_proofs" to confirm that the key commitment has been
+       inclusion_proofs to confirm that the key commitment has been
        submitted to a trusted registry.  Once the client receives the
-       "ciphersuite" for the server, it should implement all Privacy
-       Pass API functions (as detailed in
-       [draft-ietf-privacypass-protocol]) using this ciphersuite.
+       ciphersuite for the server, it should implement all Privacy Pass
+       API functions (as detailed in [draft-ietf-privacypass-protocol])
+       using this ciphersuite.
 
 5.  Privacy Pass Issuance
 
-   Inputs: - "server_origin": The origin to request token issuance from.
-   - "count": The number of tokens to request issuance for.
+   Inputs: - server_origin: The origin to request token issuance from. -
+   count: The number of tokens to request issuance for.
 
-   Outputs: - "tokens": A list of tokens that have been signed via the
+   Outputs: - tokens: A list of tokens that have been signed via the
    Privacy Pass protocol.
 
    1.  When a client wants to request tokens from a server, it should
        first fetch a key commitment from the server via the process
-       described in Section 4 and keep the result as "commitment".
+       described in Section 4 and keep the result as commitment.
 
-   2.  The client should then call the "Generate" function requesting
-       "count" tokens storing the resulting "input" data.
+   2.  The client should then call the Generate function requesting
+       count tokens storing the resulting input data.
 
-   3.  The client then makes a POST request to <"server_origin">/.well-
-       known/privacy-pass with a message of type "request-issuance" and
-       a body of:
+   3.  The client then makes a POST request to <server_origin>/.well-
+       known/privacy-pass with a message of type request-issuance and a
+       body of:
 
    enum { Normal(0) } IssuanceType;
 
@@ -309,26 +308,26 @@ Table of Contents
        opaque msg<0..2^16-1> = input.msg;
    }
 
-   1.  The server, upon receipt of the "request" should call the "Issue"
-       function with the "public_key", "secret_key" and the value of
-       "msg" with a result of "resp".
+   1.  The server, upon receipt of the request should call the Issue
+       function with the public_key, secret_key and the value of msg
+       with a result of resp.
 
    2.  The server should then respond to the POST request with a message
-       of type "issue" and a body of:
+       of type issue and a body of:
 
    struct {
        IssuanceType type = request.type;
        IssuanceResp resp = resp;
    }
 
-   1.  The client should then should call the "Process" function with
-       the "public_key", stored "inputs" and resulting "resp", to
-       extract a list of "redemption_tokens".
+   1.  The client should then should call the Process function with the
+       public_key, stored inputs and resulting resp, to extract a list
+       of redemption_tokens.
 
-   2.  The client should store the "public_key" associated with these
-       tokens and the elements of "redemption_tokens" under storage
-       partitioned by the "server_origin", accessible only via the
-       Privacy Pass API.
+   2.  The client should store the public_key associated with these
+       tokens and the elements of redemption_tokens under storage
+       partitioned by the server_origin, accessible only via the Privacy
+       Pass API.
 
 6.  Privacy Pass Redemption
 
@@ -346,24 +345,23 @@ Table of Contents
 
 6.1.  Generic Token Redemption
 
-   Inputs: - "context": The request context to use. - "server_id": The
-   server ID to redeem a token against. - "ciphersuite": The ciphersuite
-   for this token. - "public_key": The public key associated with this
-   token. - "redemption_token": A Privacy Pass token. - "info":
-   Additional data to bind to this token redemption.
+   Inputs: - context: The request context to use. - server_id: The
+   server ID to redeem a token against. - ciphersuite: The ciphersuite
+   for this token. - public_key: The public key associated with this
+   token. - redemption_token: A Privacy Pass token. - info: Additional
+   data to bind to this token redemption.
 
-   Outputs: - "result": The result of the redemption from the server.
+   Outputs: - result: The result of the redemption from the server.
 
-   1.  The client should check whether the "server_id" is present in the
-       "context".  If it isn't and the size of the "context" is beneath
-       the client's limit, it should be added.
+   1.  The client should check whether the server_id is present in the
+       context.  If it isn't and the size of the context is beneath the
+       client's limit, it should be added.
 
-   2.  The client should call the "Redeem" function with
-       "redemption_token" and additional data of "info" storing the
-       resulting "data" and "tag".
+   2.  The client should call the Redeem function with redemption_token
+       and additional data of info storing the resulting data and tag.
 
-   3.  The client makes a POST request to <"server_origin">/.well-known/
-       privacy-pass with a message of type "token-redemption" and a body
+   3.  The client makes a POST request to <server_origin>/.well-known/
+       privacy-pass with a message of type token-redemption and a body
        of:
 
    struct {
@@ -373,12 +371,12 @@ Table of Contents
        opaque info<1..2^16-1> = info;
    }
 
-   1.  The server, upon receipt of "request" should call the "Verify"
-       interface with "public_key", "secret_key" and the received
-       "data", "tag", "info" storing the resulting "resp".
+   1.  The server, upon receipt of request should call the Verify
+       interface with public_key, secret_key and the received data, tag,
+       info storing the resulting resp.
 
    2.  The server should then respond to the POST request with a message
-       of type "redemption-result" and a signed body of:
+       of type redemption-result and a signed body of:
 
    struct {
        opaque info<1..2^16-1> = info;
@@ -389,33 +387,32 @@ Table of Contents
    }
 
    1.  The client upon receipt of this message should verify the
-       "signature" using the "verification_key" from the configuration
-       and return the "result".
+       signature using the verification_key from the configuration and
+       return the result.
 
 6.2.  Direct Redemption
 
-   Inputs: - "context": The request context to use. - "server_origin":
-   The server origin to redeem a token for. - "target": The target
-   endpoint to send the token to. - "additional_data": Additional data
-   to bind to this redemption request.
+   Inputs: - context: The request context to use. - server_origin: The
+   server origin to redeem a token for. - target: The target endpoint to
+   send the token to. - additional_data: Additional data to bind to this
+   redemption request.
 
    1.  When a client wants to redeem tokens for a server, it should
        first fetch a key commitment from the server via the process
-       described in Section 4 and keep the result as "commitment".
+       described in Section 4 and keep the result as commitment.
 
    2.  The client should then look up the storage partition associated
-       with "server_origin" and fetch a "redemption_token" and
-       "public_key".
+       with server_origin and fetch a redemption_token and public_key.
 
-   3.  The client should verify that the "public_key" is in the current
-       "commitment".  If not, it should discard the token and fail the
+   3.  The client should verify that the public_key is in the current
+       commitment.  If not, it should discard the token and fail the
        redemption attempt.
 
-   4.  As part of the request to "target", the client will include the
-       token as part of the request in the "Sec-Privacy-Pass" header
-       along with whatever other parameters are being passed as part of
-       the request to "target".  The header will contain a message of
-       type "token-redemption" with a body of:
+   4.  As part of the request to target, the client will include the
+       token as part of the request in the Sec-Privacy-Pass header along
+       with whatever other parameters are being passed as part of the
+       request to target.  The header will contain a message of type
+       token-redemption with a body of:
 
    struct {
        opaque server_id<1..2^16-1> = server_id;
@@ -425,31 +422,30 @@ Table of Contents
        opaque additional_data<1..2^16-1> = additional_data;
    }
 
-   At this point, the "target" can perform a generic redemption as
+   At this point, the target can perform a generic redemption as
    described in Section 6.1 by forwarding the message included in the
-   request to "target".
+   request to target.
 
 6.3.  Delegated Redemption
 
-   Inputs: - "context": The request context to use. - "server_origin":
-   The server origin to redeem a token for. - "target": The target
-   endpoint to send the token to. - "additional_data": Additional data
-   to bind to this redemption request.
+   Inputs: - context: The request context to use. - server_origin: The
+   server origin to redeem a token for. - target: The target endpoint to
+   send the token to. - additional_data: Additional data to bind to this
+   redemption request.
 
    1.  When a client wants to redeem tokens for a server, it should
        first fetch a key commitment from the server via the process
-       described in Section 4 and keep the result as "commitment".
+       described in Section 4 and keep the result as commitment.
 
    2.  The client should then look up the storage partition associated
-       with "server_origin" and fetch a "redemption_token" and
-       "public_key".
+       with server_origin and fetch a redemption_token and public_key.
 
-   3.  The client should verify that the "public_key" is in the current
-       "commitment".  If not, it should discard the token and fail the
+   3.  The client should verify that the public_key is in the current
+       commitment.  If not, it should discard the token and fail the
        redemption attempt.
 
-   4.  The client constructs a bytestring "info" made up of the
-       "target", the current "timestamp", and "additional_data":
+   4.  The client constructs a bytestring info made up of the target,
+       the current timestamp, and additional_data:
 
    struct {
        opaque target<1..2^16-1>;
@@ -458,14 +454,13 @@ Table of Contents
    }
 
    1.  The client then performs a token redemption as described in
-       Section 6.1.  Storing the resulting "redemption-result" message.
+       Section 6.1.  Storing the resulting redemption-result message.
 
-   2.  As part of the request to "target", the client will include the
-       redemption result as part of the request in the "Sec-Privacy-
-       Pass" header along with whatever other parameters are being
-       passed as part of the request to "target".  The header will
-       contain a message of type "signed-redemption-result" with a body
-       of:
+   2.  As part of the request to target, the client will include the
+       redemption result as part of the request in the Sec-Privacy-Pass
+       header along with whatever other parameters are being passed as
+       part of the request to target.  The header will contain a message
+       of type signed-redemption-result with a body of:
 
    struct {
        opaque server_origin<1..2^16-1>;
@@ -475,13 +470,12 @@ Table of Contents
        opaque signed_redemption<1..2^16-1>;
    }
 
-   At this point, the "target" can verify the integrity of
-   "signed_redemption.info" based on the values of "target",
-   "timestamp", and "additional_data" and verify the signature of the
-   redemption result by querying the current configuration of the
-   Privacy Pass server.  The inclusion of "target" and "timestamp"
-   proves that the server attested to the validity of the token in
-   relation to this particular request.
+   At this point, the target can verify the integrity of
+   signed_redemption.info based on the values of target, timestamp, and
+   additional_data and verify the signature of the redemption result by
+   querying the current configuration of the Privacy Pass server.  The
+   inclusion of target and timestamp proves that the server attested to
+   the validity of the token in relation to this particular request.
 
 7.  Security Considerations
 
