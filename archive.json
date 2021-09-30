@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-09-16T00:52:57.441900+00:00",
+  "timestamp": "2021-09-30T00:55:56.237626+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -4097,6 +4097,109 @@
               "body": "Yeah, good point. We should probably length prefix each of the element lists in request and response to make this easier to address later on.",
               "createdAt": "2021-07-19T15:10:58Z",
               "updatedAt": "2021-07-19T15:10:58Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 83,
+      "id": "PR_kwDODeTEy84scsTn",
+      "title": "Initial attempt at integration doc",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/83",
+      "state": "OPEN",
+      "author": "alxdavids",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is my first draft of an integration document for replacing the current protocol doc. I've tried to keep it as concise as possible. A few questions:\r\n\r\n- Would it be better to be more specific about how the POPRF algorithms are used? Or is this level of detail sufficient?\r\n- Can we leave considerations about how public keys are distributed and consumed to the HTTP API doc?\r\n- Is it reasonable to leave metadata-level considerations to the architecture doc.\r\n\r\nLet me know what you think so far, cc @chris-wood, @bemasc, @dvorak42, @jsalowey, @claucece, @armfazh ",
+      "createdAt": "2021-09-29T13:00:43Z",
+      "updatedAt": "2021-09-29T21:49:47Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "alxdavids/integration-doc",
+      "headRefOid": "3f895980efcb73b262260f0db469b9a5b4f37ad8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think this doc might be the right place to declare an IANA registry of Privacy Pass ciphersuites, and explain how entries in that registry map to the VOPRF draft, and are represented in the HTTP API.",
+          "createdAt": "2021-09-29T13:47:59Z",
+          "updatedAt": "2021-09-29T13:47:59Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy84tuqd6",
+          "commit": {
+            "abbreviatedOid": "3f89598"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "This more or less matches what I was thinking, but I think we can spell things a bit more specifically to enable interop.",
+          "createdAt": "2021-09-29T21:30:33Z",
+          "updatedAt": "2021-09-29T21:49:47Z",
+          "comments": [
+            {
+              "originalPosition": 79,
+              "body": "```suggestion\r\n```\r\n\r\nI don't think we need to define this?",
+              "createdAt": "2021-09-29T21:30:33Z",
+              "updatedAt": "2021-09-29T21:49:47Z"
+            },
+            {
+              "originalPosition": 47,
+              "body": "```suggestion\r\ncreated by a given server in the past\r\n```",
+              "createdAt": "2021-09-29T21:30:56Z",
+              "updatedAt": "2021-09-29T21:49:47Z"
+            },
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\r\nshow how this integration allows public metadata to be introduced to\r\n```",
+              "createdAt": "2021-09-29T21:31:21Z",
+              "updatedAt": "2021-09-29T21:49:47Z"
+            },
+            {
+              "originalPosition": 90,
+              "body": "```suggestion\r\na key configuration in a way that clients can retrieve it. This configuration consists\r\nof the server's public key and configuration information for the underlying POPRF.\r\n\r\n~~~\r\nstruct {\r\n   uint8 version;\r\n   uint16 suite;\r\n   uint8 public_key[Ne];\r\n} KeyConfig;\r\n~~~\r\n\r\nKeyConfig.suite corresponds to a POPRF ciphersuite from {{I-D.irtf-cfrg-voprf, Section 4}},\r\nand KeyConfig.public_key corresponds to a serialized public key of length `Ne` bytes \r\n(denoted as a `SerializedElement` in {{I-D.irtf-cfrg-voprf, Section 2}}).\r\n```",
+              "createdAt": "2021-09-29T21:34:33Z",
+              "updatedAt": "2021-09-29T21:49:47Z"
+            },
+            {
+              "originalPosition": 90,
+              "body": "It's hard to interop if we don't describe how configurations are represented, I think.",
+              "createdAt": "2021-09-29T21:36:58Z",
+              "updatedAt": "2021-09-29T21:49:47Z"
+            },
+            {
+              "originalPosition": 92,
+              "body": "I would spell this differently. For example, I might literally frame it in terms of the POPRF protocol, like so:\r\n\r\n```\r\nThe issuance phase proceeds as follows. Let `info` be the agreed upon metadata between client\r\nand server, and let `config` be the server's chosen key configuration.\r\n\r\nFirst, a client configures its verifiable context using `config`:\r\n\r\n~~~\r\nclient_context = SetupVerifiableClient(config.suite, config.public_key)\r\n~~~\r\n\r\nLikewise, the server creates its own context using `config` and the corresponding private key `key`:\r\n\r\n~~~\r\nserver_context = SetupVerifiableServer(config.suite, key, config.public_key)\r\n~~~\r\n\r\nThe client then creates an issuance request as follows:\r\n\r\n~~~\r\nnonce = random(32)\r\nblind, blindedElement = context. Blind(nonce)\r\n~~~\r\n\r\nThe client then sends blindedElement to the server. The server, upon receipt, evaluates the request:\r\n\r\n~~~\r\nevaluatedElement, proof = server_context.Evaluate(key, config.public_key, blindedElement, info)\r\n~~~\r\n\r\nThe server sends both `evaluatedElement` and `proof` to the client. These are concatenated together. As the length of both is fixed, there is no ambiguity in parsing the result.\r\n\r\nThe client then completes issuance as follows:\r\n\r\n~~~\r\noutput = client_context.Finalize(nonce, blind, evaluatedElement, info):\r\n~~~\r\n\r\nThis procedure may fail with an error (`VerifyError` or `DeserializeError`), in which case the issuance is said to have failed. The output of the issuance protocol is the concatenation of `nonce` and `output`, denoted as `token`:\r\n\r\n~~~\r\nstruct {\r\n   uint8 nonce[32];\r\n   uint8 output[Nh]; // Nh is as defined in {{I-D.irtf-cfrg-voprf}}\r\n} Token;\r\n~~~\r\n\r\nIn the redemption phase, the client sends the Token to the server to verify locally. In particular, the server verifies the Token as follows:\r\n\r\n~~~\r\nvalid = server_context.VerifyFinalize(key, token.nonce, token.output, info)\r\n~~~\r\n\r\nRedemption is considered successful if `valid` is true.\r\n```",
+              "createdAt": "2021-09-29T21:46:02Z",
+              "updatedAt": "2021-09-29T21:49:47Z"
+            },
+            {
+              "originalPosition": 112,
+              "body": "I would remove this section entirely.",
+              "createdAt": "2021-09-29T21:46:18Z",
+              "updatedAt": "2021-09-29T21:49:47Z"
+            },
+            {
+              "originalPosition": 143,
+              "body": "Negotiation is a bit odd here, since nothing's negotiated. Maybe this should say that ciphersuites are determined by the server's choice of configuration?",
+              "createdAt": "2021-09-29T21:47:00Z",
+              "updatedAt": "2021-09-29T21:49:47Z"
+            },
+            {
+              "originalPosition": 90,
+              "body": "We should probably also indicate how the server knows which KeyConfig to use for a given request. I don't think this needs to be part of the protocol here, as it may vary. Instead, I'd recommend coming up with a unique way to identify a KeyConfig, e.g., id = SHA256(KeyConfig), and then saying that the wrapper protocol around Privacy Pass can send this to the server if needed for the given application.",
+              "createdAt": "2021-09-29T21:49:18Z",
+              "updatedAt": "2021-09-29T21:49:48Z"
             }
           ]
         }
