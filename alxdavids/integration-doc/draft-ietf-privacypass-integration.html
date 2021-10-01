@@ -6,6 +6,8 @@
 <meta content="initial-scale=1.0" name="viewport">
 <title>Privacy Pass Protocol Specification</title>
 <meta content="Alex Davidson" name="author">
+<meta content="Steven Valdez" name="author">
+<meta content="Christopher A. Wood" name="author">
 <meta content="
        This document specifies the necessary integration for building the
 Privacy Pass protocol, supporting symmetric verification and public
@@ -1020,11 +1022,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">PP integration</td>
-<td class="right">September 2021</td>
+<td class="right">October 2021</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Davidson</td>
-<td class="center">Expires 2 April 2022</td>
+<td class="left">Davidson, et al.</td>
+<td class="center">Expires 4 April 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1037,17 +1039,25 @@ address div.right {
 <dd class="internet-draft">draft-ietf-privacypass-integration</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-09-29" class="published">29 September 2021</time>
+<time datetime="2021-10-01" class="published">1 October 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-04-02">2 April 2022</time></dd>
-<dt class="label-authors">Author:</dt>
+<dd class="expires"><time datetime="2022-04-04">4 April 2022</time></dd>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">A. Davidson</div>
 <div class="org">Brave Software</div>
+</div>
+<div class="author">
+      <div class="author-name">S. Valdez</div>
+<div class="org">Google LLC</div>
+</div>
+<div class="author">
+      <div class="author-name">C.A. Wood</div>
+<div class="org">Cloudflare</div>
 </div>
 </dd>
 </dl>
@@ -1079,7 +1089,7 @@ protocol.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1115,35 +1125,35 @@ protocol.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-terminology" class="xref">Terminology</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="xref">3</a>.  <a href="#name-privacy-pass-flow" class="xref">Privacy Pass flow</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-privacy-pass-flow" class="xref">Privacy Pass flow</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-initialization-phase" class="xref">Initialization phase</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-issuance-phase" class="xref">Issuance phase</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-redemption-phase" class="xref">Redemption phase</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-partially-oblivious-pseudor" class="xref">Partially Oblivious Pseudorandom Function Protocol</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-security-guarantees" class="xref">Security guarantees</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-metadata" class="xref">Metadata</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-protocol-ciphersuites" class="xref">Protocol ciphersuites</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-references" class="xref">References</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-references" class="xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#appendix-A" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1157,13 +1167,13 @@ protocol.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <p id="section-1-1">The Privacy Pass protocol provides a privacy-preserving authorization
 mechanism. In essence, the protocol allows clients to provide
 cryptographic tokens that prove nothing other than that they have been
-authorized by a given server in the past
+created by a given server in the past
 <span>[<a href="#I-D.ietf-privacypass-architecture" class="xref">I-D.ietf-privacypass-architecture</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">This document provides the necessary integration for building the
 authorization framework, based on existing constructions of oblivious
 pseudorandom function protocols <span>[<a href="#I-D.irtf-cfrg-voprf" class="xref">I-D.irtf-cfrg-voprf</a>]</span>. Moreover, we
-show how this integration allows <code>public</code> metadata to be introduced to
-the protocol, that is agreed by both clients and servers.<a href="#section-1-2" class="pilcrow">¶</a></p>
+show how this integration allows public metadata to be introduced to the
+protocol, that is agreed by both clients and servers.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">This document DOES NOT cover the architectural framework required for
 running and maintaining the Privacy Pass protocol in the Internet
 setting. In addition, it DOES NOT cover the choices that are necessary
@@ -1191,10 +1201,6 @@ tokens to clients.<a href="#section-2-3.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-2-3.3">Key: The secret key used by the server for authorizing client data.<a href="#section-2-3.3" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-2-3.4">Blinding/unblinding: A pair of cryptographic operations that allow
-randomly distributing and revealing some underlying <code>data</code>, whilst
-preserving the ability to generate valid signatures on <code>data</code> itself.<a href="#section-2-3.4" class="pilcrow">¶</a>
-</li>
       </ul>
 <p id="section-2-4">We assume that all protocol messages are encoded into raw byte format
 before being sent across the wire.<a href="#section-2-4" class="pilcrow">¶</a></p>
@@ -1206,93 +1212,158 @@ before being sent across the wire.<a href="#section-2-4" class="pilcrow">¶</a><
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-privacy-pass-flow" class="section-name selfRef">Privacy Pass flow</a>
       </h2>
 <p id="section-3-1">There are three phases in the protocol: the initialization phase, the
-issuance phase, and the redemption phase.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">In the initialization phase, the server samples a keypair and publishes
-a <code>public key</code> (or key commitment) to a public repository.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">In the issuance phase:<a href="#section-3-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3-4.1">The client and server optionally agree on some public <code>metadata</code>.<a href="#section-3-4.1" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-3-4.2">The client retrieves an servers public key, and generates some initial
-<code>token</code> data. The client cryptographically <code>blinds</code> this data, and
-sends it to the server.<a href="#section-3-4.2" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-3-4.3">The server <code>signs</code> the blinded token data (including optional), and
-produces a proof that it used the committed keypair, and sends the
-signature and proof back to the client.<a href="#section-3-4.3" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-3-4.4">The client <code>verifies</code> the proof, <code>unblinds</code> the signature, and
-stores an authenticated triple of the token, optional metadata, and
-unblinded signature.<a href="#section-3-4.4" class="pilcrow">¶</a>
-</li>
-      </ul>
-<p id="section-3-5">In the redemption phase:<a href="#section-3-5" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3-6.1">The client retrieves an authenticated token, optional metadata and
-signature triple, and sends it to the server.<a href="#section-3-6.1" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-3-6.2">The server <code>validates</code> that the pair is authenticated correctly and
-authorizes the client.<a href="#section-3-6.2" class="pilcrow">¶</a>
-</li>
-      </ul>
+issuance phase, and the redemption phase. We construct each phase based
+on the POPRF protocol construction detailed in <span>[<a href="#I-D.irtf-cfrg-voprf" class="xref">I-D.irtf-cfrg-voprf</a>]</span>,
+and all algorithms and data types are inherited as such.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div id="initialization-phase">
+<section id="section-3.1">
+        <h3 id="name-initialization-phase">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-initialization-phase" class="section-name selfRef">Initialization phase</a>
+        </h3>
+<p id="section-3.1-1">The server samples a keypair and publishes a key configuration in a way
+that clients can retrieve it. This configuration consists of the
+server's public key and configuration information for the underlying
+POPRF.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-2">
+<pre>
+struct {
+   uint8 version;
+   uint16 suite;
+   uint8 public_key[Ne];
+} KeyConfig;
+</pre><a href="#section-3.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-3.1-3">KeyConfig.version corresponds to the version of the key configuration
+that is being used, this parameter is left generic and may be altered if
+extensions to the protocol or server configurations are made.
+KeyConfig.suite corresponds to a POPRF ciphersuite from
+<span>[<a href="#I-D.irtf-cfrg-voprf" class="xref">I-D.irtf-cfrg-voprf</a>], <a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf-07#section-4" class="relref">Section 4</a></span>, and KeyConfig.public_key corresponds
+to a serialized public key of length <code>Ne</code> bytes (denoted as a
+<code>SerializedElement</code> in <span>[<a href="#I-D.irtf-cfrg-voprf" class="xref">I-D.irtf-cfrg-voprf</a>], <a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf-07#section-2" class="relref">Section 2</a></span>). In<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1-4">In order for higher-level applications to indicate which key
+configuration is being used, a common identifier, such as
+<code>id=SHA256(KeyConfig)</code>, should be used. Note that the ciphersuite that
+is used is determined entirely by the choice of <code>suite</code> in the server
+key configuration.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="partially-oblivious-pseudorandom-function-protocol">
+<div id="issuance-phase">
+<section id="section-3.2">
+        <h3 id="name-issuance-phase">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-issuance-phase" class="section-name selfRef">Issuance phase</a>
+        </h3>
+<p id="section-3.2-1">Let <code>info</code> be the agreed upon metadata between client and server, and
+let <code>config</code> be the server's chosen key configuration.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">First, a client configures its verifiable context using <code>config</code>:<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2-3">
+<pre>
+client_context = SetupVerifiableClient(
+                  config.suite, config.public_key
+                 )
+</pre><a href="#section-3.2-3" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2-4">Likewise, the server creates its own context using <code>config</code> and the
+corresponding private key <code>key</code>:<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2-5">
+<pre>
+server_context = SetupVerifiableServer(
+                  config.suite, key, config.public_key
+                 )
+</pre><a href="#section-3.2-5" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2-6">The client then creates an issuance request for a random value <code>nonce</code>
+as follows:<a href="#section-3.2-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2-7">
+<pre>
+nonce = random(32)
+blind, blindedElement = context.Blind(nonce)
+</pre><a href="#section-3.2-7" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2-8">The client then sends <code>blindedElement</code> to the server. The server, upon
+receipt, evaluates the request:<a href="#section-3.2-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2-9">
+<pre>
+evaluatedElement, proof = server_context.Evaluate(
+                           key, config.public_key,
+                           blindedElement, info
+                          )
+</pre><a href="#section-3.2-9" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2-10">The server sends both <code>evaluatedElement</code> and <code>proof</code> to the client.
+These are concatenated together. As the length of both is fixed, there
+is no ambiguity in parsing the result.<a href="#section-3.2-10" class="pilcrow">¶</a></p>
+<p id="section-3.2-11">The client then completes issuance as follows:<a href="#section-3.2-11" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2-12">
+<pre>
+output = client_context.Finalize(
+          nonce, blind, evaluatedElement, info
+         )
+</pre><a href="#section-3.2-12" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2-13">This procedure may fail with an error (<code>VerifyError</code> or
+<code>DeserializeError</code>), in which case the issuance is said to have failed.
+The output of the issuance protocol is the concatenation of <code>nonce</code> and
+<code>output</code>, denoted as <code>token</code>:<a href="#section-3.2-13" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2-14">
+<pre>
+struct {
+   uint8 nonce[32];
+   uint8 output[Nh];
+} Token;
+</pre><a href="#section-3.2-14" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2-15">where <code>Nh</code> is as defined in <span>[<a href="#I-D.irtf-cfrg-voprf" class="xref">I-D.irtf-cfrg-voprf</a>]</span>.<a href="#section-3.2-15" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="redemption-phase">
+<section id="section-3.3">
+        <h3 id="name-redemption-phase">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-redemption-phase" class="section-name selfRef">Redemption phase</a>
+        </h3>
+<p id="section-3.3-1">The client sends the <code>Token</code> to the server to verify locally. In
+particular, the server verifies the <code>Token</code> as follows:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3-2">
+<pre>
+valid = server_context.VerifyFinalize(
+         key, token.nonce, token.output, info
+        )
+</pre><a href="#section-3.3-2" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3-3">Redemption is considered successful if <code>valid</code> is true.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="iana-considerations">
 <section id="section-4">
-      <h2 id="name-partially-oblivious-pseudor">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-partially-oblivious-pseudor" class="section-name selfRef">Partially Oblivious Pseudorandom Function Protocol</a>
+      <h2 id="name-iana-considerations">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-4-1">We can instantiate the protocol flow in <a href="#protocol-flow" class="xref">Section 3</a> using the
-partially oblivious pseudorandom function (POPRF) protocol in
-<span>[<a href="#I-D.irtf-cfrg-voprf" class="xref">I-D.irtf-cfrg-voprf</a>]</span>. In summary, the issuance phase corresponds to
-receiving a pseudorandom function evaluation on the blinded data (with
-optional metadata). The redemption phase corresponds to revealing
-<code>finalized</code> data back to the original issuing server.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">Note that this instantiation only provides a symmetric verification
-mechanism, since the verification of redemptions can only be performed
-by the server possessing the secret issuing key. In
-<span>[<a href="#I-D.ietf-privacypass-architecture" class="xref">I-D.ietf-privacypass-architecture</a>]</span>, we provide alternative frameworks
-for allowing asynchronous and delegated verification of tokens.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<div id="security-guarantees">
-<section id="section-4.1">
-        <h3 id="name-security-guarantees">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-security-guarantees" class="section-name selfRef">Security guarantees</a>
-        </h3>
-<p id="section-4.1-1">The privacy of clients is determined by the unlinkability of client
-requests during the POPRF protocol. Moreover, the one-more-forgery
-security of the POPRF prevents clients from forging valid tokens for a
-given server. See <span>[<a href="#I-D.irtf-cfrg-voprf" class="xref">I-D.irtf-cfrg-voprf</a>]</span> for more details.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">This specification registers new ciphersuites for the Privacy Pass
+protocol, corresponding to the following ciphersuites detailed in
+<span>[<a href="#I-D.irtf-cfrg-voprf" class="xref">I-D.irtf-cfrg-voprf</a>]</span>.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4-2.1">Ciphersuite OPRF(ristretto255, SHA-512) = XXXX<a href="#section-4-2.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-4-2.2">Ciphersuite OPRF(decaf448, SHAKE-256) = XXXX<a href="#section-4-2.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-4-2.3">Ciphersuite OPRF(P-256, SHA-256) = XXXX<a href="#section-4-2.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-4-2.4">Ciphersuite OPRF(P-384, SHA-384) = XXXX<a href="#section-4-2.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-4-2.5">Ciphersuite OPRF(P-521, SHA-512) = XXXX<a href="#section-4-2.5" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-4-3">Change controller: IETF Specification document(s): This specification<a href="#section-4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="metadata">
-<section id="section-4.2">
-        <h3 id="name-metadata">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-metadata" class="section-name selfRef">Metadata</a>
-        </h3>
-<p id="section-4.2-1">The POPRF protocol provides mechanisms for embedding public metadata
-into the function evaluations. Such metadata should be agreed apriori by
-clients and servers, and is regarded as being public to entities that
-are not even included in the explicit issuance and redemption exchanges.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-<div id="ciphersuites">
 <section id="section-5">
-      <h2 id="name-protocol-ciphersuites">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-protocol-ciphersuites" class="section-name selfRef">Protocol ciphersuites</a>
-      </h2>
-<p id="section-5-1">Ciphersuite negotiation is only relevant in terms of negotiating the
-appropriate ciphersuites for the underlying POPRF protocol.<a href="#section-5-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<section id="section-6">
       <h2 id="name-references">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
-<section id="section-6.1">
+<section id="section-5.1">
         <h3 id="name-normative-references">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.ietf-privacypass-architecture">[I-D.ietf-privacypass-architecture]</dt>
@@ -1317,9 +1388,9 @@ appropriate ciphersuites for the underlying POPRF protocol.<a href="#section-5-1
 <dd class="break"></dd>
 </dl>
 </section>
-<section id="section-6.2">
+<section id="section-5.2">
         <h3 id="name-informative-references">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="RFC7049">[RFC7049]</dt>
@@ -1335,8 +1406,8 @@ appropriate ciphersuites for the underlying POPRF protocol.<a href="#section-5-1
 </section>
 <div id="authors-addresses">
 <section id="appendix-A">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Alex Davidson</span></div>
@@ -1346,6 +1417,26 @@ appropriate ciphersuites for the underlying POPRF protocol.<a href="#section-5-1
 <div class="email">
 <span>Email:</span>
 <a href="mailto:alex.davidson92@gmail.com" class="email">alex.davidson92@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Steven Valdez</span></div>
+<div dir="auto" class="left"><span class="org">Google LLC</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:svaldez@chromium.org" class="email">svaldez@chromium.org</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Christopher A. Wood</span></div>
+<div dir="auto" class="left"><span class="org">Cloudflare</span></div>
+<div dir="auto" class="left"><span class="street-address">101 Townsend St</span></div>
+<div dir="auto" class="left">
+<span class="locality">San Francisco</span>,  </div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:caw@heapingbits.net" class="email">caw@heapingbits.net</a>
 </div>
 </address>
 </section>
