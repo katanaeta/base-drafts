@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-09-30T00:55:56.237626+00:00",
+  "timestamp": "2021-10-03T00:56:58.255938+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -4114,13 +4114,13 @@
       "labels": [],
       "body": "This is my first draft of an integration document for replacing the current protocol doc. I've tried to keep it as concise as possible. A few questions:\r\n\r\n- Would it be better to be more specific about how the POPRF algorithms are used? Or is this level of detail sufficient?\r\n- Can we leave considerations about how public keys are distributed and consumed to the HTTP API doc?\r\n- Is it reasonable to leave metadata-level considerations to the architecture doc.\r\n\r\nLet me know what you think so far, cc @chris-wood, @bemasc, @dvorak42, @jsalowey, @claucece, @armfazh ",
       "createdAt": "2021-09-29T13:00:43Z",
-      "updatedAt": "2021-09-29T21:49:47Z",
+      "updatedAt": "2021-10-01T17:32:00Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "alxdavids/integration-doc",
-      "headRefOid": "3f895980efcb73b262260f0db469b9a5b4f37ad8",
+      "headRefOid": "db0af02f09054a6c701f60163855ae2f2a6db44c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4132,6 +4132,20 @@
           "body": "I think this doc might be the right place to declare an IANA registry of Privacy Pass ciphersuites, and explain how entries in that registry map to the VOPRF draft, and are represented in the HTTP API.",
           "createdAt": "2021-09-29T13:47:59Z",
           "updatedAt": "2021-09-29T13:47:59Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@alxdavids, can you please review and respond to the comments above?",
+          "createdAt": "2021-10-01T14:43:40Z",
+          "updatedAt": "2021-10-01T14:43:40Z"
+        },
+        {
+          "author": "alxdavids",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @chris-wood @dvorak42 @bemasc for the review and suggestions. I've updated the draft with your changes (@chris-wood and @dvorak42 I've also added you as authors due to contributing concrete text). What do you think?\r\n\r\n@bemasc: Is the IANA considerations section that I've added sufficient? ",
+          "createdAt": "2021-10-01T16:36:49Z",
+          "updatedAt": "2021-10-01T16:36:49Z"
         }
       ],
       "reviews": [
@@ -4200,6 +4214,92 @@
               "body": "We should probably also indicate how the server knows which KeyConfig to use for a given request. I don't think this needs to be part of the protocol here, as it may vary. Instead, I'd recommend coming up with a unique way to identify a KeyConfig, e.g., id = SHA256(KeyConfig), and then saying that the wrapper protocol around Privacy Pass can send this to the server if needed for the given application.",
               "createdAt": "2021-09-29T21:49:18Z",
               "updatedAt": "2021-09-29T21:49:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84txjg7",
+          "commit": {
+            "abbreviatedOid": "3f89598"
+          },
+          "author": "dvorak42",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-09-30T14:45:11Z",
+          "updatedAt": "2021-09-30T15:08:13Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "What's the version intended to be? Key version?",
+              "createdAt": "2021-09-30T14:45:11Z",
+              "updatedAt": "2021-09-30T15:08:13Z"
+            },
+            {
+              "originalPosition": 101,
+              "body": "Wonder if we should just refer to the triple as the token, and not have to have the client keep a concept of the separate parts? (constructions where the output of issuance ends up just being one bound blob, rather than disparate pieces) Though we can also hide that in the higher level APIs.",
+              "createdAt": "2021-09-30T14:47:50Z",
+              "updatedAt": "2021-09-30T15:08:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84tx05M",
+          "commit": {
+            "abbreviatedOid": "3f89598"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-09-30T15:40:25Z",
+          "updatedAt": "2021-09-30T15:40:26Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "Version of this key config, so it should probably also include a length of the struct? \ud83e\udd37 ",
+              "createdAt": "2021-09-30T15:40:25Z",
+              "updatedAt": "2021-09-30T15:40:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84tx1MB",
+          "commit": {
+            "abbreviatedOid": "3f89598"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-09-30T15:41:25Z",
+          "updatedAt": "2021-09-30T15:41:25Z",
+          "comments": [
+            {
+              "originalPosition": 101,
+              "body": "Yeah, the API should probably just expose a single blob as the token, rather than separate parts. ",
+              "createdAt": "2021-09-30T15:41:25Z",
+              "updatedAt": "2021-09-30T15:41:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84t2WWs",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "bemasc",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-01T17:32:00Z",
+          "updatedAt": "2021-10-01T17:32:00Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "In general the form is: \"This specification creates a new page named X in the Y category containing a registry named Z, with the following fields:\".\r\n\r\nIn the case, maybe X = Privacy Pass, Y = Privacy Pass, Z = \"Cipher Suites\".\r\n\r\nAlso think about whether your cipher suites need a numeric identifier, or whether it is sufficient to give them strings.",
+              "createdAt": "2021-10-01T17:32:00Z",
+              "updatedAt": "2021-10-01T17:32:00Z"
             }
           ]
         }
