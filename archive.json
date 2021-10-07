@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-10-03T00:56:58.255938+00:00",
+  "timestamp": "2021-10-07T00:53:57.171385+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -4114,7 +4114,7 @@
       "labels": [],
       "body": "This is my first draft of an integration document for replacing the current protocol doc. I've tried to keep it as concise as possible. A few questions:\r\n\r\n- Would it be better to be more specific about how the POPRF algorithms are used? Or is this level of detail sufficient?\r\n- Can we leave considerations about how public keys are distributed and consumed to the HTTP API doc?\r\n- Is it reasonable to leave metadata-level considerations to the architecture doc.\r\n\r\nLet me know what you think so far, cc @chris-wood, @bemasc, @dvorak42, @jsalowey, @claucece, @armfazh ",
       "createdAt": "2021-09-29T13:00:43Z",
-      "updatedAt": "2021-10-01T17:32:00Z",
+      "updatedAt": "2021-10-06T16:29:28Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
@@ -4146,6 +4146,20 @@
           "body": "Thanks @chris-wood @dvorak42 @bemasc for the review and suggestions. I've updated the draft with your changes (@chris-wood and @dvorak42 I've also added you as authors due to contributing concrete text). What do you think?\r\n\r\n@bemasc: Is the IANA considerations section that I've added sufficient? ",
           "createdAt": "2021-10-01T16:36:49Z",
           "updatedAt": "2021-10-01T16:36:49Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Thanks @chris-wood @dvorak42 @bemasc for the review and suggestions. I've updated the draft with your changes (@chris-wood and @dvorak42 I've also added you as authors due to contributing concrete text). What do you think?\r\n\r\nThe new text looks mostly good to me, modulo a couple more suggestions and a question about the ciphersuites. @alxdavids, why do we need PP suites when we have POPRF suites?",
+          "createdAt": "2021-10-05T12:07:17Z",
+          "updatedAt": "2021-10-05T12:07:17Z"
+        },
+        {
+          "author": "claucece",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It looks good @alxdavids !\r\n\r\n> Would it be better to be more specific about how the POPRF algorithms are used? Or is this level of detail sufficient?\r\n\r\nI think this level is sufficient ;)",
+          "createdAt": "2021-10-05T13:00:57Z",
+          "updatedAt": "2021-10-05T13:00:57Z"
         }
       ],
       "reviews": [
@@ -4297,9 +4311,253 @@
           "comments": [
             {
               "originalPosition": 211,
-              "body": "In general the form is: \"This specification creates a new page named X in the Y category containing a registry named Z, with the following fields:\".\r\n\r\nIn the case, maybe X = Privacy Pass, Y = Privacy Pass, Z = \"Cipher Suites\".\r\n\r\nAlso think about whether your cipher suites need a numeric identifier, or whether it is sufficient to give them strings.",
+              "body": "In general the form is: \"This specification creates a new page named X in the Y category containing a registry named Z, with the following fields:\".\r\n\r\nIn this case, maybe X = Privacy Pass, Y = Privacy Pass, Z = \"Cipher Suites\".\r\n\r\nAlso think about whether your cipher suites need a numeric identifier, or whether it is sufficient to give them strings.",
               "createdAt": "2021-10-01T17:32:00Z",
-              "updatedAt": "2021-10-01T17:32:00Z"
+              "updatedAt": "2021-10-05T14:32:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84t-dB8",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T12:01:56Z",
+          "updatedAt": "2021-10-05T12:05:49Z",
+          "comments": [
+            {
+              "originalPosition": 157,
+              "body": "```suggestion\r\nblind, blindedElement = client_context.Blind(nonce)\r\n```",
+              "createdAt": "2021-10-05T12:01:56Z",
+              "updatedAt": "2021-10-05T12:05:49Z"
+            },
+            {
+              "originalPosition": 110,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2021-10-05T12:04:46Z",
+              "updatedAt": "2021-10-05T12:05:49Z"
+            },
+            {
+              "originalPosition": 110,
+              "body": "I guess one can version above this, so maybe it's not necessary here.",
+              "createdAt": "2021-10-05T12:05:01Z",
+              "updatedAt": "2021-10-05T12:05:49Z"
+            },
+            {
+              "originalPosition": 118,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2021-10-05T12:05:12Z",
+              "updatedAt": "2021-10-05T12:05:49Z"
+            },
+            {
+              "originalPosition": 211,
+              "body": "Why do we need these ciphersuites at all? Aren't they redundant with the POPRF suite? ",
+              "createdAt": "2021-10-05T12:05:47Z",
+              "updatedAt": "2021-10-05T12:05:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84t_M55",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "bemasc",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T14:38:46Z",
+          "updatedAt": "2021-10-05T14:38:46Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "I think we do need a new IANA registry.  Without a registry, we would have to Update one or more RFCs every time we want to add a ciphersuite, which is laborious to execute and confusing to read.\r\n\r\nWhere that registry should be created depends on its intended contents.  If all future VOPRF suites as conceived in the VOPRF draft will continue to be exactly what you want for Privacy Pass, then the VOPRF draft can open the registry.  Otherwise (e.g. if we envision extending Privacy Pass to publicly verifiable ciphersuites), we'll need to define it here.\r\n\r\nAt the moment, the latter seems more likely.",
+              "createdAt": "2021-10-05T14:38:46Z",
+              "updatedAt": "2021-10-05T14:38:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84t_S_R",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "dvorak42",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T14:57:07Z",
+          "updatedAt": "2021-10-05T14:57:08Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "Yeah, for example in a future world where we have a Blind BLS suite and a POPRF suite, it seems like we'll want some containing ciphersuite that refers to one or the other.",
+              "createdAt": "2021-10-05T14:57:08Z",
+              "updatedAt": "2021-10-05T14:57:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84t_TIq",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "dvorak42",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T14:57:36Z",
+          "updatedAt": "2021-10-05T14:57:50Z",
+          "comments": [
+            {
+              "originalPosition": 219,
+              "body": "Assuming we want to do a separate IANA registry, we might want to pare down the ones that are initially defined?",
+              "createdAt": "2021-10-05T14:57:36Z",
+              "updatedAt": "2021-10-05T14:57:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84t__x6",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T17:38:50Z",
+          "updatedAt": "2021-10-05T17:38:50Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "Sorry, I don't really follow. Why would those things be in the same registry? This document is really just a thin wrapper around the POPRF, and no updates would be needed if new POPRF suites were added. In other words, the POPRF document owns the registry for POPRF suites. \r\n\r\nPrivacy Pass variants based on blind signatures would be thin wrappers around some future blind signature protocol, that itself would have its own registry (or that variant of Privacy Pass would have its own registry). Either way, it seems unnecessary here.",
+              "createdAt": "2021-10-05T17:38:50Z",
+              "updatedAt": "2021-10-05T17:39:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84uABvu",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "bemasc",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T17:47:18Z",
+          "updatedAt": "2021-10-05T17:47:18Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "Perhaps PMBTokens (an alternative to VOPRF that also matches the synchronous model) is a clearer example than Blind Signatures (which can also be made to fit into the synchronous model, but perhaps less elegantly).",
+              "createdAt": "2021-10-05T17:47:18Z",
+              "updatedAt": "2021-10-05T17:47:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84uADGT",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T17:51:13Z",
+          "updatedAt": "2021-10-05T17:51:14Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "I see your point, but it's not clear to me we actually want a single registry to list different \"modes\" of privacy pass, e.g., one without private metadata (POPRF) and one with private metadata (PMBTokens). Why not just make that a separate thing altogether? What's the value of merging these things?",
+              "createdAt": "2021-10-05T17:51:13Z",
+              "updatedAt": "2021-10-05T17:51:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84uATo2",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "dvorak42",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T18:20:26Z",
+          "updatedAt": "2021-10-05T18:20:26Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "At some layer we need to indicate what protocol is being used for a web/HTTP API. Be it PrivacyPassVOPRFP521 or PrivacyPassCoolPostQuantum or PrivacyPassBLS. Seems like something that the PrivacyPass WG should define somewhere as things that higher level things point to, though maybe we don't have that in the Integration doc and put it somewhere else?",
+              "createdAt": "2021-10-05T18:20:26Z",
+              "updatedAt": "2021-10-05T18:20:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84uAekO",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "bemasc",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T19:02:52Z",
+          "updatedAt": "2021-10-05T19:02:53Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "The goal mentioned in the proposed schedule is to support ecosystems containing a mixture of clients and issuers that support POPRF and non-POPRF ciphersuites.  That means one way or another, different ciphersuite families need to be accessible from the same server identity.\r\n\r\nFor clarity, it might be more helpful to frame this question in terms of the specific structs in the HTTP API draft.",
+              "createdAt": "2021-10-05T19:02:52Z",
+              "updatedAt": "2021-10-05T19:02:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84uAfOq",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-05T19:05:52Z",
+          "updatedAt": "2021-10-05T19:05:53Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "> The goal mentioned in the proposed schedule is to support ecosystems containing a mixture of clients and issuers that support POPRF and non-POPRF ciphersuites. That means one way or another, different ciphersuite families need to be accessible from the same server identity.\r\n\r\nSure, but they could so by using separate types of key configurations or otherwise making this decision at the application layer. The goal of the schedule doesn't seem to require that a joint registry be created.\r\n\r\n> For clarity, it might be more helpful to frame this question in terms of the specific structs in the HTTP API draft.\r\n\r\nI'm not sure. I expect many users of Privacy Pass to just use the wire formats described in this doc.",
+              "createdAt": "2021-10-05T19:05:53Z",
+              "updatedAt": "2021-10-05T19:05:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84uEpIi",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-06T16:29:28Z",
+          "updatedAt": "2021-10-06T16:29:28Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "> Be it PrivacyPassVOPRFP521 or PrivacyPassCoolPostQuantum or PrivacyPassBLS. Seems like something that the PrivacyPass WG should define somewhere as things that higher level things point to\r\n\r\n@dvorak42 I guess what gives me pause is that putting everything behind a single registry implies that all values in that registry have similar properties, but that's not the case here. In contrast to, say, TLS algorithm registries, which are really just different algorithms with the same set of features. The things we're considering merging here have fundamentally different features (or at least they do in my opinion), so it's not clear to me that merging them is appropriate. (Sorry if I'm not making my thinking clear!)",
+              "createdAt": "2021-10-06T16:29:28Z",
+              "updatedAt": "2021-10-06T16:29:28Z"
             }
           ]
         }
