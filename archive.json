@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-10-07T00:53:57.171385+00:00",
+  "timestamp": "2021-10-14T00:51:22.293464+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -4114,7 +4114,7 @@
       "labels": [],
       "body": "This is my first draft of an integration document for replacing the current protocol doc. I've tried to keep it as concise as possible. A few questions:\r\n\r\n- Would it be better to be more specific about how the POPRF algorithms are used? Or is this level of detail sufficient?\r\n- Can we leave considerations about how public keys are distributed and consumed to the HTTP API doc?\r\n- Is it reasonable to leave metadata-level considerations to the architecture doc.\r\n\r\nLet me know what you think so far, cc @chris-wood, @bemasc, @dvorak42, @jsalowey, @claucece, @armfazh ",
       "createdAt": "2021-09-29T13:00:43Z",
-      "updatedAt": "2021-10-06T16:29:28Z",
+      "updatedAt": "2021-10-13T12:49:51Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
@@ -4558,6 +4558,26 @@
               "body": "> Be it PrivacyPassVOPRFP521 or PrivacyPassCoolPostQuantum or PrivacyPassBLS. Seems like something that the PrivacyPass WG should define somewhere as things that higher level things point to\r\n\r\n@dvorak42 I guess what gives me pause is that putting everything behind a single registry implies that all values in that registry have similar properties, but that's not the case here. In contrast to, say, TLS algorithm registries, which are really just different algorithms with the same set of features. The things we're considering merging here have fundamentally different features (or at least they do in my opinion), so it's not clear to me that merging them is appropriate. (Sorry if I'm not making my thinking clear!)",
               "createdAt": "2021-10-06T16:29:28Z",
               "updatedAt": "2021-10-06T16:29:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy84uZ18X",
+          "commit": {
+            "abbreviatedOid": "db0af02"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-10-13T12:49:51Z",
+          "updatedAt": "2021-10-13T12:49:51Z",
+          "comments": [
+            {
+              "originalPosition": 211,
+              "body": "Bump?",
+              "createdAt": "2021-10-13T12:49:51Z",
+              "updatedAt": "2021-10-13T12:49:51Z"
             }
           ]
         }
