@@ -5,10 +5,10 @@
 Network Working Group                                        A. Davidson
 Internet-Draft                                            Brave Software
 Intended status: Informational                                 S. Valdez
-Expires: 4 April 2022                                         Google LLC
+Expires: 22 April 2022                                        Google LLC
                                                                C.A. Wood
                                                               Cloudflare
-                                                          1 October 2021
+                                                         19 October 2021
 
 
                   Privacy Pass Protocol Specification
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 April 2022.
+   This Internet-Draft will expire on 22 April 2022.
 
 Copyright Notice
 
@@ -125,14 +125,10 @@ Table of Contents
    POPRF.
 
    struct {
-      uint8 version;
       uint16 suite;
       uint8 public_key[Ne];
    } KeyConfig;
 
-   KeyConfig.version corresponds to the version of the key configuration
-   that is being used, this parameter is left generic and may be altered
-   if extensions to the protocol or server configurations are made.
    KeyConfig.suite corresponds to a POPRF ciphersuite from
    [I-D.irtf-cfrg-voprf], Section 4, and KeyConfig.public_key
    corresponds to a serialized public key of length Ne bytes (denoted as
@@ -166,7 +162,7 @@ Table of Contents
    as follows:
 
    nonce = random(32)
-   blind, blindedElement = context.Blind(nonce)
+   blind, blindedElement = client_context.Blind(nonce)
 
    The client then sends blindedElement to the server.  The server, upon
    receipt, evaluates the request:
