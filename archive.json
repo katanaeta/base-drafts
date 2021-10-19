@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-10-17T00:53:15.025092+00:00",
+  "timestamp": "2021-10-19T00:56:33.187254+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -4635,7 +4635,7 @@
       "labels": [],
       "body": "This versions at the application layer. We could have a way for servers to advertise the variants they support if needed, which would be another simple resource to add. ",
       "createdAt": "2021-10-14T19:55:43Z",
-      "updatedAt": "2021-10-14T19:55:43Z",
+      "updatedAt": "2021-10-18T17:41:19Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
