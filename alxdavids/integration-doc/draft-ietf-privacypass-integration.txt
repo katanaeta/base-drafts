@@ -60,10 +60,9 @@ Table of Contents
      3.1.  Initialization phase
      3.2.  Issuance phase
      3.3.  Redemption phase
-   4.  IANA Considerations
-   5.  References
-     5.1.  Normative References
-     5.2.  Informative References
+   4.  References
+     4.1.  Normative References
+     4.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -115,7 +114,8 @@ Table of Contents
    issuance phase, and the redemption phase.  We construct each phase
    based on the POPRF protocol construction detailed in
    [I-D.irtf-cfrg-voprf], and all algorithms and data types are
-   inherited as such.
+   inherited as such.  All implementations MUST use the OPRF(P-384, SHA-
+   384) ciphersuite.
 
 3.1.  Initialization phase
 
@@ -205,27 +205,9 @@ Table of Contents
 
    Redemption is considered successful if valid is true.
 
-4.  IANA Considerations
+4.  References
 
-   This specification registers new ciphersuites for the Privacy Pass
-   protocol, corresponding to the following ciphersuites detailed in
-   [I-D.irtf-cfrg-voprf].
-
-   *  Ciphersuite OPRF(ristretto255, SHA-512) = XXXX
-
-   *  Ciphersuite OPRF(decaf448, SHAKE-256) = XXXX
-
-   *  Ciphersuite OPRF(P-256, SHA-256) = XXXX
-
-   *  Ciphersuite OPRF(P-384, SHA-384) = XXXX
-
-   *  Ciphersuite OPRF(P-521, SHA-512) = XXXX
-
-   Change controller: IETF Specification document(s): This specification
-
-5.  References
-
-5.1.  Normative References
+4.1.  Normative References
 
    [I-D.ietf-privacypass-architecture]
               Davidson, A. and C. A. Wood, "Privacy Pass Architectural
@@ -257,7 +239,7 @@ Table of Contents
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://datatracker.ietf.org/doc/html/rfc8446>.
 
-5.2.  Informative References
+4.2.  Informative References
 
    [RFC7049]  Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", RFC 7049, DOI 10.17487/RFC7049,
