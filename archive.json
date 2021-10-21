@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-10-19T00:56:33.187254+00:00",
+  "timestamp": "2021-10-21T00:57:42.867001+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -4114,13 +4114,13 @@
       "labels": [],
       "body": "This is my first draft of an integration document for replacing the current protocol doc. I've tried to keep it as concise as possible. A few questions:\r\n\r\n- Would it be better to be more specific about how the POPRF algorithms are used? Or is this level of detail sufficient?\r\n- Can we leave considerations about how public keys are distributed and consumed to the HTTP API doc?\r\n- Is it reasonable to leave metadata-level considerations to the architecture doc.\r\n\r\nLet me know what you think so far, cc @chris-wood, @bemasc, @dvorak42, @jsalowey, @claucece, @armfazh ",
       "createdAt": "2021-09-29T13:00:43Z",
-      "updatedAt": "2021-10-14T19:55:51Z",
+      "updatedAt": "2021-10-19T12:43:08Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "alxdavids/integration-doc",
-      "headRefOid": "db0af02f09054a6c701f60163855ae2f2a6db44c",
+      "headRefOid": "a30b4d75beafbb514e4ac5630fd992f7dc234f59",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4160,6 +4160,13 @@
           "body": "It looks good @alxdavids !\r\n\r\n> Would it be better to be more specific about how the POPRF algorithms are used? Or is this level of detail sufficient?\r\n\r\nI think this level is sufficient ;)",
           "createdAt": "2021-10-05T13:00:57Z",
           "updatedAt": "2021-10-05T13:00:57Z"
+        },
+        {
+          "author": "alxdavids",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Removed the IANA registry for now following conversation with @chris-wood, @dvorak42, @claucece. Also locked the OPRF ciphersuite to P384. We can figure out how to define the appropriate IANA registries in the future. ",
+          "createdAt": "2021-10-19T12:43:08Z",
+          "updatedAt": "2021-10-19T12:43:08Z"
         }
       ],
       "reviews": [
@@ -4635,7 +4642,7 @@
       "labels": [],
       "body": "This versions at the application layer. We could have a way for servers to advertise the variants they support if needed, which would be another simple resource to add. ",
       "createdAt": "2021-10-14T19:55:43Z",
-      "updatedAt": "2021-10-18T17:41:19Z",
+      "updatedAt": "2021-10-19T13:32:25Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
@@ -4646,7 +4653,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "alxdavids",
+          "authorAssociation": "COLLABORATOR",
+          "body": "FWIW, this looks good to me, except that we probably want to reference the P384 ciphersuite following the recent change in #83.",
+          "createdAt": "2021-10-19T12:44:25Z",
+          "updatedAt": "2021-10-19T12:44:25Z"
+        },
+        {
+          "author": "dvorak42",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is this ready to be merged? Looks like it's only listed as a draft?\r\n\r\nAny reason for the change to the endpoints from being a single endpoint to per-stage? I wonder if we need to specify that much or let the server configuration dictate what endpoint(s) to hit.",
+          "createdAt": "2021-10-19T13:32:24Z",
+          "updatedAt": "2021-10-19T13:32:24Z"
+        }
+      ],
       "reviews": []
     }
   ]
