@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-10-21T00:57:42.867001+00:00",
+  "timestamp": "2021-10-24T00:53:04.730588+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -4114,7 +4114,7 @@
       "labels": [],
       "body": "This is my first draft of an integration document for replacing the current protocol doc. I've tried to keep it as concise as possible. A few questions:\r\n\r\n- Would it be better to be more specific about how the POPRF algorithms are used? Or is this level of detail sufficient?\r\n- Can we leave considerations about how public keys are distributed and consumed to the HTTP API doc?\r\n- Is it reasonable to leave metadata-level considerations to the architecture doc.\r\n\r\nLet me know what you think so far, cc @chris-wood, @bemasc, @dvorak42, @jsalowey, @claucece, @armfazh ",
       "createdAt": "2021-09-29T13:00:43Z",
-      "updatedAt": "2021-10-19T12:43:08Z",
+      "updatedAt": "2021-10-23T10:57:36Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
@@ -4642,7 +4642,7 @@
       "labels": [],
       "body": "This versions at the application layer. We could have a way for servers to advertise the variants they support if needed, which would be another simple resource to add. ",
       "createdAt": "2021-10-14T19:55:43Z",
-      "updatedAt": "2021-10-19T13:32:25Z",
+      "updatedAt": "2021-10-23T10:34:01Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "920b6e608e2774837ae23487a4d772d6f7a2b5e3",
